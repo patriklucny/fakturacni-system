@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('number');
             $table->string('bank');
-            $table->int('supplier_id');
+            $table->integer('supplier_id');
         });
     }
 
