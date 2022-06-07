@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('number');
             $table->string('bank');
-            $table->integer('supplier_id');
+            $table->unsignedBigInteger('supplier_id');
+            $table->timestamps();
+
+            $table->foreign('supplier_id')->on('suppliers')->references('id');
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('bankAccounts');
     }
 };

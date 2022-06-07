@@ -16,11 +16,14 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('number');
-            $table->integer('supplier_id');
-            $table->integer('subscriber_id');
+            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('subscriber_id');
             $table->date('create_date');
             $table->date('due_date');
-            $table->double('total_price');
+            $table->timestamps();
+
+            $table->foreign('supplier_id')->on('suppliers')->references('id');
+            $table->foreign('subscriber_id')->on('subscribers')->references('id');
         });
     }
 
