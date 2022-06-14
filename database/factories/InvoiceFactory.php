@@ -22,8 +22,8 @@ class InvoiceFactory extends Factory
             'number' => "2022-" . $this->faker->unique()->numberBetween($min = 1000, $max = 1011),
             'supplier_id' => $this->faker->numberBetween($min = 1, $max = 10),
             'subscriber_id' => $this->faker->numberBetween($min = 1, $max = 10),
-            'create_date' => now(),
-            'due_date' => Carbon::now()->addDays(14),
+            'create_date' => $this->faker->dateTimeBetween('-2 months', '-1 month'),
+            'due_date' => $this->faker->dateTimeBetween('-1 month', 'now'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];

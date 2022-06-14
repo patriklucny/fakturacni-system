@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\DB;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/css/selectize.bootstrap5.min.css" integrity="sha512-w4sRMMxzHUVAyYk5ozDG+OAyOJqWAA+9sySOBWxiltj63A8co6YMESLeucKwQ5Sv7G4wycDPOmlHxkOhPW7LRg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body id="page-top">
+<body id="page-top" style="color: rgb(71,72,74);">
 
 @yield('content')
 
@@ -31,6 +31,5 @@ use Illuminate\Support\Facades\DB;
 <script src="{{ asset('js/custom_script.js') }}"></script>
 
 </body>
-
 </html>
 

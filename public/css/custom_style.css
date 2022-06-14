@@ -116,8 +116,7 @@
     border-color: #d9dfe3;
 }
 
-@media print
-{
+@media print{
     .noprint {display:none;}
     table{color: rgb(71,72,74) !important;}
 }
@@ -128,4 +127,19 @@
     top: 50%;
     right: 5%;
     transform: translateY(-50%);
+}
+
+.table_invoice_row{
+    transition: background-color 500ms ease-out 100ms
+}
+
+.table_invoice_row:hover{
+    background-color: #c4f1ff;
+
+}
+
+.vertical-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

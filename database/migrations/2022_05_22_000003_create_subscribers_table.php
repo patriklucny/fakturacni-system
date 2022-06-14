@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email');
             $table->string('id_number');
-            $table->string('tax_number');
+            $table->string('tax_number')->nullable();
             $table->timestamps();
 
             $table->foreign('address_id')->on('addresses')->references('id');

@@ -30,8 +30,6 @@ class InvoiceController extends BaseController
     function create(Request $request){
         $receive_data = $request->all();
 
-        if($receive_data['products'] == "x") return redirect('new_invoice');
-
         $invoice_number = Invoice::max('number');
         $invoice_number++;
 
@@ -39,10 +37,9 @@ class InvoiceController extends BaseController
         $invoice->number = $invoice_number;
         $invoice->supplier_id = $receive_data['supplier'];
         $invoice->subscriber_id = $receive_data['subscriber'];
-        $date = new DateTime(now());
-        $invoice->create_date = $date;
-        $date->modify('+ 14 days');
-        $invoice->due_date = $date;
+        $invoice->create_date = new DateTime(now());
+        $date2 = new DateTime(now());
+        $invoice->due_date = $date2->modify('+ 14 days');
         $invoice->save();
 
         $products = json_decode($receive_data['products'], true);
@@ -55,13 +52,13 @@ class InvoiceController extends BaseController
             $invoice_product->save();
         }
 
-        $request->session()->flash('invoice_id', $invoice['id']);
+        setcookie('invoice_id', $invoice['id']);
 
         return redirect('invoice');
     }
 
     function show(){
-        $invoice_id = session('invoice_id');
+        $invoice_id = $_COOKIE['invoice_id'];
 
         $data = Invoice::where('id', $invoice_id)->first();
 
@@ -101,10 +98,19 @@ class InvoiceController extends BaseController
     }
 
     function showAll(){
-        $data['invoices']['pagination'] = Invoice::paginate(10);
-        $data['invoices']['count'] = Invoice::count();
+        $invoices = Invoice::orderBy('number', 'DESC')->get();
+        $suppliers = Supplier::all();
+        $subscribers = Subscriber::all();
 
-        return view('invoices');
+        for($i = 0; $i < count($invoices); $i++){
+            $data[$i]['id'] = $invoices[$i]['id'];
+            $data[$i]['number'] = $invoices[$i]['number'];
+            $data[$i]['create_date'] = $invoices[$i]['create_date'];
+            $data[$i]['supplier'] = $suppliers->find($invoices[$i]['supplier_id']);
+            $data[$i]['subscriber'] = $subscribers->find($invoices[$i]['subscriber_id']);
+        }
+
+        return view('invoices', ['data' => $data]);
     }
 
     function data(){
@@ -116,11 +122,12 @@ class InvoiceController extends BaseController
         return $data;
     }
 
-    function update(){
-        echo "update user";
-    }
+    function delete(){
+        $invoice_id = $_COOKIE['invoice_id'];
 
-    function delete($id){
-        echo "delete user";
+        InvoiceProduct::where('invoice_id', $invoice_id)->delete();
+        Invoice::where('id', $invoice_id)->delete();
+
+        return redirect('invoices');
     }
 }
